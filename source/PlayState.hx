@@ -225,6 +225,7 @@ class PlayState extends MusicBeatState
 	public var scoreTxt:FlxText;
 	var timeTxt:FlxText;
 	var scoreTxtTween:FlxTween;
+	var songName:FlxSprite;
 
 	public static var campaignScore:Int = 0;
 	public static var campaignMisses:Int = 0;
@@ -999,6 +1000,15 @@ class PlayState extends MusicBeatState
 
 		FlxG.fixedTimestep = false;
 		moveCameraSection(0);
+
+		songName = new FlxSprite();
+		songName.frames = Paths.getSparrowAtlas('songs/credits_song');
+		if(SONG.song.toLowerCase() == 'bopeebo')
+		songName.animation.addByPrefix('quiet retro', 'QUIET RETRO0', 24, false);
+		else
+		songName.antialiasing = ClientPrefs.globalAntialiasing;
+		songName.cameras = [camHUD];
+		add(songName);
 
 		healthBarBG = new AttachedSprite('healthBar');
 		healthBarBG.y = FlxG.height * 0.89;
