@@ -1003,11 +1003,11 @@ class PlayState extends MusicBeatState
 
 		songName = new FlxSprite();
 		songName.frames = Paths.getSparrowAtlas('songs/credits_song');
-		if(SONG.song.toLowerCase() == 'bopeebo')
-		songName.animation.addByPrefix('quiet retro', 'QUIET RETRO0', 24, false);
-		else
 		songName.antialiasing = ClientPrefs.globalAntialiasing;
-		songName.cameras = [camHUD];
+		songName.animation.addByPrefix('quiet retro', 'QUIET RETRO0', 24, false);
+		if(SONG.song.toLowerCase() == 'bopeebo')
+		songName.animation.play('quiet retro');
+		else
 		add(songName);
 
 		healthBarBG = new AttachedSprite('healthBar');
@@ -1059,6 +1059,7 @@ class PlayState extends MusicBeatState
 			botplayTxt.y = timeBarBG.y - 78;
 		}
 
+		songName.cameras = [camHUD];
 		strumLineNotes.cameras = [camHUD];
 		grpNoteSplashes.cameras = [camHUD];
 		notes.cameras = [camHUD];
@@ -1205,6 +1206,19 @@ class PlayState extends MusicBeatState
 
 		Conductor.safeZoneOffset = (ClientPrefs.safeFrames / 60) * 1000;
 		callOnLuas('onCreatePost', []);
+		
+		if (SONG.song.toLowerCase() == 'eclipse')
+		{
+			for (daNote in unspawnNotes) {
+				if (daNote.noteType == 'Shifter')
+				{
+					if (daNote.mustPress)
+						daNote.offsetX = 640;
+					else
+						daNote.offsetX = -640;
+				}
+			}
+		}
 		
 		super.create();
 
@@ -1815,7 +1829,7 @@ class PlayState extends MusicBeatState
 
 		var songName:String = Paths.formatToSongPath(SONG.song);
 		var file:String = Paths.json(songName + '/events');
-		#if sys
+		#if desktop
 		if (FileSystem.exists(Paths.modsJson(songName + '/events')) || FileSystem.exists(file)) {
 		#else
 		if (OpenFlAssets.exists(file)) {
@@ -2603,6 +2617,17 @@ class PlayState extends MusicBeatState
 					daNote.kill();
 					notes.remove(daNote, true);
 					daNote.destroy();
+				}
+				
+				if (daNote.noteType == 'Shifter')
+				{
+					if (Conductor.songPosition >= (daNote.strumTime - 500) && !daNote.notesMoving)
+					{
+						daNote.notesMoving = true;
+						daNote.animation.curAnim.paused = false;
+						if (!daNote.isSustainNote)
+							FlxTween.tween(daNote, {offsetX: daNote.ogX}, 0.25, {ease: FlxEase.cubeOut});
+					}
 				}
 			});
 		}
@@ -3850,6 +3875,8 @@ class PlayState extends MusicBeatState
 			{
 				char.playAnim(animToPlay, true);
 				char.holdTimer = 0;
+				if (health >= 0.021)
+					health -= 0.02;
 			}
 		}
 

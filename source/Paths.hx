@@ -219,16 +219,24 @@ class Paths
 
 	inline static public function voices(song:String):Any
 	{
-		var songKey:String = '${song.toLowerCase().replace(' ', '-')}/Voices';
-		var voices = returnSound('songs', songKey);
-		return voices;
+		#if MODS_ALLOWED
+		var file:Sound = returnSongFile(modsSongs(song.toLowerCase().replace(' ', '-') + '/Voices'));
+		if(file != null) {
+			return file;
+		}
+		#end
+		return 'songs:assets/songs/${song.toLowerCase().replace(' ', '-')}/Voices.$SOUND_EXT';
 	}
 
 	inline static public function inst(song:String):Any
 	{
-		var songKey:String = '${song.toLowerCase().replace(' ', '-')}/Inst';
-		var inst = returnSound('songs', songKey);
-		return inst;
+		#if MODS_ALLOWED
+		var file:Sound = returnSongFile(modsSongs(song.toLowerCase().replace(' ', '-') + '/Inst'));
+		if(file != null) {
+			return file;
+		}
+		#end
+		return 'songs:assets/songs/${song.toLowerCase().replace(' ', '-')}/Inst.$SOUND_EXT';
 	}
 
 	inline static public function image(key:String, ?library:String):FlxGraphic
@@ -240,7 +248,7 @@ class Paths
 	
 	static public function getTextFromFile(key:String, ?ignoreMods:Bool = false):String
 	{
-		#if sys
+		#if desktop
 		#if MODS_ALLOWED
 		if (!ignoreMods && FileSystem.exists(modFolders(key)))
 			return File.getContent(modFolders(key));
