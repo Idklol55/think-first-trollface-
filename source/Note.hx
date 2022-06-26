@@ -388,7 +388,7 @@ class Note extends FlxSprite
 				offsetY += 7;
 			}
 		}
-		if (mustPress) (mustPress)
+		if (mustPress)
 		{
 			// ok river
 			if (strumTime > Conductor.songPosition - Conductor.safeZoneOffset
