@@ -1001,7 +1001,7 @@ class PlayState extends MusicBeatState
 		FlxG.fixedTimestep = false;
 		moveCameraSection(0);
 
-		songName = new FlxSprite();
+		songName = new FlxSprite(1, 1);
 		songName.frames = Paths.getSparrowAtlas('songs/credits_song');
 		songName.antialiasing = ClientPrefs.globalAntialiasing;
 		songName.animation.addByPrefix('quiet retro', 'QUIET RETRO0', 24, false);
@@ -2194,6 +2194,7 @@ class PlayState extends MusicBeatState
 	var startedCountdown:Bool = false;
 	var canPause:Bool = true;
 	var limoSpeed:Float = 0;
+	var notesMoving:Bool = false;
 
 	override public function update(elapsed:Float)
 	{
