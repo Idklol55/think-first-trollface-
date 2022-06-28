@@ -1004,9 +1004,9 @@ class PlayState extends MusicBeatState
 		songNames = new FlxSprite();
 		songNames.frames = Paths.getSparrowAtlas('songs/credits_song');
 		songNames.antialiasing = ClientPrefs.globalAntialiasing;
-		songNames.animation.addByPrefix('quiet retro', 'QUIET RETRO0', 24, false);
+		songNames.animation.addByPrefix('quiet-retro', 'QUIET RETRO', 24, false);
 		if(SONG.song.toLowerCase() == 'bopeebo')
-		songNames.animation.play('quiet retro');
+		songNames.animation.play('quiet-retro');
 		else
 		add(songNames);
 
@@ -1207,15 +1207,15 @@ class PlayState extends MusicBeatState
 		Conductor.safeZoneOffset = (ClientPrefs.safeFrames / 60) * 1000;
 		callOnLuas('onCreatePost', []);
 		
-		if (SONG.song.toLowerCase() == 'eclipse')
-		{
+		/*if (SONG.song.toLowerCase() == 'Quiet')
+		{*/
 			for (daNote in unspawnNotes) {
 				if (daNote.noteType == 'Shifter')
 				{
 					if (daNote.mustPress)
-						daNote.offsetX = 640;
+						daNote.offsetX = 630;
 					else
-						daNote.offsetX = -640;
+						daNote.offsetX = -630;
 				}
 			}
 		}
