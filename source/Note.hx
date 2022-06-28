@@ -63,6 +63,7 @@ class Note extends FlxSprite
 	public var offsetY:Float = 0;
 	public var offsetAngle:Float = 0;
 	public var multAlpha:Float = 1;
+	public var notesMoving:Bool = false;
 
 	public var copyX:Bool = true;
 	public var copyY:Bool = true;
