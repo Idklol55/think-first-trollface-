@@ -30,6 +30,15 @@ class Paths
 	inline public static var VIDEO_EXT = "mp4";
 
 	#if MODS_ALLOWED
+	#if (haxe >= "4.0.0")
+	public static var customImagesLoaded:Map<String, Bool> = new Map();
+	public static var customSoundsLoaded:Map<String, Sound> = new Map();
+	#else
+	public static var customImagesLoaded:Map<String, Bool> = new Map<String, Bool>();
+	public static var customSoundsLoaded:Map<String, Sound> = new Map<String, Sound>();
+	#end
+
+	#if MODS_ALLOWED
 	public static var ignoreModFolders:Array<String> = [
 		'characters',
 		'custom_events',

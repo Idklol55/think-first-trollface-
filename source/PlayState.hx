@@ -225,7 +225,7 @@ class PlayState extends MusicBeatState
 	public var scoreTxt:FlxText;
 	var timeTxt:FlxText;
 	var scoreTxtTween:FlxTween;
-	var songName:FlxSprite;
+	var songNames:FlxSprite;
 
 	public static var campaignScore:Int = 0;
 	public static var campaignMisses:Int = 0;
@@ -1001,14 +1001,14 @@ class PlayState extends MusicBeatState
 		FlxG.fixedTimestep = false;
 		moveCameraSection(0);
 
-		songName = new FlxSprite(1, 1);
-		songName.frames = Paths.getSparrowAtlas('songs/credits_song');
-		songName.antialiasing = ClientPrefs.globalAntialiasing;
-		songName.animation.addByPrefix('quiet retro', 'QUIET RETRO0', 24, false);
+		songNames = new FlxSprite();
+		songNames.frames = Paths.getSparrowAtlas('songs/credits_song');
+		songNames.antialiasing = ClientPrefs.globalAntialiasing;
+		songNames.animation.addByPrefix('quiet retro', 'QUIET RETRO0', 24, false);
 		if(SONG.song.toLowerCase() == 'bopeebo')
-		songName.animation.play('quiet retro');
+		songNames.animation.play('quiet retro');
 		else
-		add(songName);
+		add(songNames);
 
 		healthBarBG = new AttachedSprite('healthBar');
 		healthBarBG.y = FlxG.height * 0.89;
@@ -1059,7 +1059,7 @@ class PlayState extends MusicBeatState
 			botplayTxt.y = timeBarBG.y - 78;
 		}
 
-		songName.cameras = [camHUD];
+		songNames.cameras = [camHUD];
 		strumLineNotes.cameras = [camHUD];
 		grpNoteSplashes.cameras = [camHUD];
 		notes.cameras = [camHUD];
