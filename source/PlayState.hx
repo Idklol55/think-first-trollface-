@@ -1207,8 +1207,8 @@ class PlayState extends MusicBeatState
 		Conductor.safeZoneOffset = (ClientPrefs.safeFrames / 60) * 1000;
 		callOnLuas('onCreatePost', []);
 		
-		/*if (SONG.song.toLowerCase() == 'Quiet')
-		{*/
+		if (SONG.song.toLowerCase() == 'bopeebo')//Quiet
+		{
 			for (daNote in unspawnNotes) {
 				if (daNote.noteType == 'Shifter')
 				{
