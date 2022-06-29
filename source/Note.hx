@@ -103,7 +103,7 @@ class Note extends FlxSprite
 			switch(value) {
 				case 'Shifter':
 					ogX = offsetX;
-					ogX -= 30;
+					ogX -= 40;
 					set_texture('NOTE_assets');
 					animation.curAnim.paused = true;
 					if (!isSustainNote)
@@ -112,9 +112,9 @@ class Note extends FlxSprite
 						offsetY -= 100;
 						
 					if (mustPress)
-						offsetX = -630;
+						offsetX = -640;
 					else
-						offsetX = 630;
+						offsetX = 640;
 				case 'Hurt Note':
 					ignoreNote = mustPress;
 					reloadNote('HURT');
@@ -382,13 +382,13 @@ class Note extends FlxSprite
 				}
 				offsetX = prevNote.offsetX;
 				if (!prevNote.isSustainNote)
-					offsetX += 35;
+					offsetX += 30;//35
 			}
 				
 			if (isSustainNote && animation.curAnim.name.endsWith('end') && !changedY)
 			{
 				changedY = true;
-				offsetY += 7;
+				offsetY += 2;//7
 			}
 		}
 		if (mustPress)

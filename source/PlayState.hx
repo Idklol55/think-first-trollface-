@@ -1213,9 +1213,9 @@ class PlayState extends MusicBeatState
 				if (daNote.noteType == 'Shifter')
 				{
 					if (daNote.mustPress)
-						daNote.offsetX = 630;
+						daNote.offsetX = 640;
 					else
-						daNote.offsetX = -630;
+						daNote.offsetX = -640;
 				}
 			}
 		}
