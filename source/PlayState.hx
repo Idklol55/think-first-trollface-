@@ -225,7 +225,6 @@ class PlayState extends MusicBeatState
 	public var scoreTxt:FlxText;
 	var timeTxt:FlxText;
 	var scoreTxtTween:FlxTween;
-	var songNames:FlxSprite;
 
 	public static var campaignScore:Int = 0;
 	public static var campaignMisses:Int = 0;
@@ -1001,15 +1000,6 @@ class PlayState extends MusicBeatState
 		FlxG.fixedTimestep = false;
 		moveCameraSection(0);
 
-		songNames = new FlxSprite();
-		songNames.frames = Paths.getSparrowAtlas('songs/credits_song');
-		songNames.antialiasing = ClientPrefs.globalAntialiasing;
-		songNames.animation.addByPrefix('quiet-retro', 'QUIET RETRO', 24, false);
-		if(SONG.song.toLowerCase() == 'bopeebo')
-		songNames.animation.play('quiet-retro');
-		else
-		add(songNames);
-
 		healthBarBG = new AttachedSprite('healthBar');
 		healthBarBG.y = FlxG.height * 0.89;
 		healthBarBG.screenCenter(X);
@@ -1059,7 +1049,6 @@ class PlayState extends MusicBeatState
 			botplayTxt.y = timeBarBG.y - 78;
 		}
 
-		songNames.cameras = [camHUD];
 		strumLineNotes.cameras = [camHUD];
 		grpNoteSplashes.cameras = [camHUD];
 		notes.cameras = [camHUD];
@@ -1206,19 +1195,6 @@ class PlayState extends MusicBeatState
 
 		Conductor.safeZoneOffset = (ClientPrefs.safeFrames / 60) * 1000;
 		callOnLuas('onCreatePost', []);
-		
-		if (SONG.song.toLowerCase() == 'bopeebo')//Quiet
-		{
-			for (daNote in unspawnNotes) {
-				if (daNote.noteType == 'Shifter')
-				{
-					if (daNote.mustPress)
-						daNote.offsetX = 640;
-					else
-						daNote.offsetX = -640;
-				}
-			}
-		}
 		
 		super.create();
 
@@ -1829,7 +1805,7 @@ class PlayState extends MusicBeatState
 
 		var songName:String = Paths.formatToSongPath(SONG.song);
 		var file:String = Paths.json(songName + '/events');
-		#if desktop
+		#if sys
 		if (FileSystem.exists(Paths.modsJson(songName + '/events')) || FileSystem.exists(file)) {
 		#else
 		if (OpenFlAssets.exists(file)) {
@@ -2194,7 +2170,6 @@ class PlayState extends MusicBeatState
 	var startedCountdown:Bool = false;
 	var canPause:Bool = true;
 	var limoSpeed:Float = 0;
-	var notesMoving:Bool = false;
 
 	override public function update(elapsed:Float)
 	{
@@ -2618,17 +2593,6 @@ class PlayState extends MusicBeatState
 					daNote.kill();
 					notes.remove(daNote, true);
 					daNote.destroy();
-				}
-				
-				if (daNote.noteType == 'Shifter')
-				{
-					if (Conductor.songPosition >= (daNote.strumTime - 500) && !daNote.notesMoving)
-					{
-						daNote.notesMoving = true;
-						daNote.animation.curAnim.paused = false;
-						if (!daNote.isSustainNote)
-							FlxTween.tween(daNote, {offsetX: daNote.ogX}, 0.25, {ease: FlxEase.cubeOut});
-					}
 				}
 			});
 		}
@@ -3876,8 +3840,6 @@ class PlayState extends MusicBeatState
 			{
 				char.playAnim(animToPlay, true);
 				char.holdTimer = 0;
-				if (health >= 0.021)
-					health -= 0.02;
 			}
 		}
 
