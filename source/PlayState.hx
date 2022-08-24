@@ -716,7 +716,8 @@ class PlayState extends MusicBeatState
 				StarvedGround.velocity.set(100, 0);
 				StarvedGround.scale.set(6, 6);
 				//StarvedGround.cameras = [camBars];
-				add(StarvedGround);set}
+				add(StarvedGround);
+		}
 
 		if(isPixelStage) {
 			introSoundsSuffix = '-pixel';
