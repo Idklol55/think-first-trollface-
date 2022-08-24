@@ -58,12 +58,10 @@ class Note extends FlxSprite
 	public var noteSplashSat:Float = 0;
 	public var noteSplashBrt:Float = 0;
 
-	public var ogX:Float = 0;
 	public var offsetX:Float = 0;
 	public var offsetY:Float = 0;
 	public var offsetAngle:Float = 0;
 	public var multAlpha:Float = 1;
-	public var notesMoving:Bool = false;
 
 	public var copyX:Bool = true;
 	public var copyY:Bool = true;
@@ -79,7 +77,6 @@ class Note extends FlxSprite
 	public var texture(default, set):String = null;
 
 	public var noAnimation:Bool = false;
-	public var changedY:Bool = false;
 	public var hitCausesMiss:Bool = false;
 	public var distance:Float = 2000; //plan on doing scroll directions soon -bb
 
@@ -101,20 +98,6 @@ class Note extends FlxSprite
 
 		if(noteData > -1 && noteType != value) {
 			switch(value) {
-				case 'Shifter':
-					ogX = offsetX;
-					ogX -= 40;
-					set_texture('NOTE_assets');
-					animation.curAnim.paused = true;
-					if (!isSustainNote)
-						offsetY = -30;
-					else if(isSustainNote && !animation.curAnim.name.endsWith('end'))
-						offsetY -= 100;
-						
-					if (mustPress)
-						offsetX = -640;
-					else
-						offsetX = 640;
 				case 'Hurt Note':
 					ignoreNote = mustPress;
 					reloadNote('HURT');
@@ -371,26 +354,7 @@ class Note extends FlxSprite
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
-		if (noteType == 'Shifter')
-		{
-			if (prevNote != null && isSustainNote)
-			{
-				if (!changedY && !animation.curAnim.name.endsWith('end'))
-				{
-					changedY = true;
-					offsetY -= 63;
-				}
-				offsetX = prevNote.offsetX;
-				if (!prevNote.isSustainNote)
-					offsetX += 30;//35
-			}
-				
-			if (isSustainNote && animation.curAnim.name.endsWith('end') && !changedY)
-			{
-				changedY = true;
-				offsetY += 2;//7
-			}
-		}
+
 		if (mustPress)
 		{
 			// ok river
